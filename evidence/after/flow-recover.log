@@ -1,0 +1,11 @@
+16:55:36.984 | INFO    | prefect - Starting temporary server on http://127.0.0.1:8127
+See https://www.prefect.io/docs/v3/concepts/server#how-to-guides for more information on running a dedicated Prefect server.
+16:55:40.043 | INFO    | Flow run 'daffodil-newt' - Beginning flow run 'daffodil-newt' for flow 'release-flow'
+16:55:40.100 | INFO    | Task run 'prepare-input-4b5' - Finished in state Cached(type=COMPLETED)
+16:55:40.105 | INFO    | Task run 'resolve-candidate-7c0' - Finished in state Completed()
+16:55:40.113 | INFO    | Task run 'gate-decision-343' - GATE PASS fixture-B release_id=7c54a9ad53e5f55208bb0675105a0be0b1193bd687093ee05082888da1d5921d
+16:55:40.115 | INFO    | Task run 'gate-decision-343' - Finished in state Completed()
+16:55:40.127 | INFO    | Task run 'publish-release-992' - PUBLISHED fixture-B outcome=published
+16:55:40.127 | INFO    | Task run 'publish-release-992' - Finished in state Completed()
+16:55:41.061 | INFO    | Flow run 'daffodil-newt' - Finished in state Completed()
+16:55:41.078 | INFO    | prefect - Stopping temporary server on http://127.0.0.1:8127

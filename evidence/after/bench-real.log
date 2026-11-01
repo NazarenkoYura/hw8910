@@ -1,0 +1,27 @@
+== Запуск сервиса backend=transformers (прогрев реальных весов) ==
+== Сервис готов ==
+warmup: http=200
+[conc1] 1/8 http=200 client=2.5886s queue=4.999999873689376e-06s gen=2.5852991000001566s tokens=32
+[conc1] 2/8 http=200 client=2.6678s queue=3.9000005926936865e-06s gen=2.6647001000001183s tokens=32
+[conc1] 3/8 http=200 client=2.7167s queue=3.9000005926936865e-06s gen=2.6988062999998874s tokens=32
+[conc1] 4/8 http=200 client=2.6289s queue=4.399999852466863e-06s gen=2.6113267000000633s tokens=32
+[conc1] 5/8 http=200 client=2.6361s queue=3.4000004234258085e-06s gen=2.633151699999871s tokens=32
+[conc1] 6/8 http=200 client=2.5502s queue=4.000000444648322e-06s gen=2.5383717000004253s tokens=32
+[conc1] 7/8 http=200 client=2.7911s queue=3.099999958067201e-06s gen=2.7877552999998443s tokens=32
+[conc1] 8/8 http=200 client=2.7708s queue=4.800000169780105e-06s gen=2.7427189s tokens=32
+[conc2] 2/8 http=200 client=2.7376s queue=3.2999996619764715e-06s gen=2.7329561000005924s tokens=32
+[conc2] 1/8 http=200 client=5.7297s queue=2.731682599999658s gen=2.991220699999758s tokens=32
+[conc2] 3/8 http=200 client=5.8367s queue=2.9868704000000434s gen=2.8448922999996284s tokens=32
+[conc2] 4/8 http=200 client=6.0307s queue=2.8400142999998934s gen=3.1852549999994153s tokens=32
+[conc2] 5/8 http=200 client=6.0287s queue=3.180296000000453s gen=2.8436413999997967s tokens=32
+[conc2] 6/8 http=200 client=5.9728s queue=2.8382399000001897s gen=3.1289629000002606s tokens=32
+[conc2] 7/8 http=200 client=5.944s queue=3.12404400000014s gen=2.8149438000000373s tokens=32
+[conc2] 8/8 http=200 client=5.9351s queue=2.809433800000079s gen=3.1220023999994737s tokens=32
+
+== Сводная таблица ==
+mode      n  ok/err  package_s  req/s avg_lat_s max_lat_s avg_gen_s  tokens
+conc1     8 8/0         21.356  0.375     2.669     2.791     2.658     256
+conc2     8 8/0         23.669  0.338     5.527     6.031     2.958     256
+
+JSONL: C:\Users\user\Documents\GitHub\hw8910\measurements\bench-20261101-170621.jsonl
+CSV:   C:\Users\user\Documents\GitHub\hw8910\measurements\bench-20261101-170621.csv

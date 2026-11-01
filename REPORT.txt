@@ -1,0 +1,286 @@
+ОТЧЁТ ДЗ 8+9+10 — процесс, проверки и обслуживание модели
+МГТУ · MLOPS-26 · репозиторий hw8910
+
+1. РЕПОЗИТОРИЙ, КОММИТЫ, УСТРОЙСТВО, ЗАВИСИМОСТИ, КОМАНДЫ
+----------------------------------------------------------
+Два коммита:
+  1) «Исходный прототип ДЗ 8+9-10 из архива задания (без изменений)» —
+     hw8910-broken/ и homework8-9-10.html ровно как в архиве.
+  2) «Исправленная версия …» — исправления и целевая архитектура.
+Разбор изменений: git diff <коммит-1> <коммит-2> (папка hw8910-broken не
+изменялась и остаётся в репозитории как исходная версия).
+
+Структура:
+  release.py        — исправленные контракты: cache_key, validate_release, publish
+  process.py        — процесс выпуска: кеш подготовки, разрешение кандидата,
+                      идемпотентная публикация (указатель + журналы)
+  lab.py            — CLI процесса (совместим с прототипом: init/run)
+  flow.py           — Prefect-flow: prepare/resolve/gate/publish как задачи
+  service.py        — FastAPI: /health /ready /debug /generate, внедряемый backend
+  backends.py       — StubBackend и TransformersBackend через общий интерфейс
+  gate/hw67_solution.py — копия evaluation/solution.py ДЗ 6+7 (правило допуска)
+  make_real_release.py — реальный выпуск baseline из артефактов ДЗ 6+7
+  tests/            — 13 приложенных тестов (без изменений) + 11 собственных
+                      интеграционных + 3 теста Prefect-flow
+  scripts/          — real_smoke.py, bench.py, aba_experience.py
+  evidence/before/  — «красные» доказательства на исходной версии
+  evidence/after/   — «зелёные» логи исправленной версии
+  artifacts/real/   — реальный выпуск: манифест, release-отчёты, указатель
+  measurements/     — сырые JSONL/CSV замера
+  defects.csv       — 7 причин: симптом → воспроизведение → причина → фикс → тест
+
+Зависимости (закреплены): Python 3.12.14 (uv cpython); fastapi 0.150.0,
+uvicorn 0.54.0, prefect 3.9.1, transformers 5.22.1, peft 0.21.2,
+torch 2.15.0+cpu, pydantic 2.14.2. requirements-fast.txt — только быстрый
+прогон (fastapi+uvicorn); requirements.txt — полный стенд. Приложенные 13
+тестов и собственные интеграционные тесты не требуют MLflow и весов.
+
+Команды:
+  make check        # compileall + 27 тестов без весов (~20 с)
+  make check-flow   # Prefect-тесты
+  make release-real # реальный выпуск baseline (нужен ../hw67 и HF-кеш)
+  make smoke        # реальный сервис Qwen3-0.6B: ready, ответ, отказ
+  make bench        # 8 запросов при параллельности 1 и 2
+  make aba          # STUB-опыт A -> B -> A с перезапусками и откатом
+
+defects.csv: семь независимых причин (см. раздел 2). Минимум шесть новых
+интеграционных тестов — фактически 11 (3 HTTP + 7 subprocess/файловых + 1
+восстановление журнала), каждый помечен в докстринге tests/test_integration.py;
+логи до/после: evidence/before/integration-red.log (10 FAIL на исходной) и
+evidence/after/integration-green.log (11 OK на исправленной).
+
+2. СЕМЬ ДЕФЕКТОВ (кратко; полностью — defects.csv)
+---------------------------------------------------
+1) cache_key считал SHA-256 строки ПУТИ: содержимое и config не участвовали.
+   Фикс: SHA-256 канонического JSON {data_sha256, config}. Тест:
+   test_crash_recovery_and_cache_invalidation (красный: d1-stale.log).
+2) validate_release проверял только правдивость passed (строка 'false' —
+   truthy!); манифест разрешался жёстко manifest-B. Фикс: полная проверка
+   (schema_version int 1, хеши hex64, runtime_sha256 по каноническому runtime,
+   связность отчёт<->манифест, метрики конечные [0,1], passed is True).
+   Тесты: test_incomplete_report_refused, test_report_binds_to_its_model.
+3) publish писал целевой файл напрямую (не атомарно, без fsync). Фикс:
+   временный файл + flush/fsync + os.replace, удаление tmp при отказе,
+   прежний файл побайтно неизменен. Тест: публичный
+   test_failed_atomic_replace_preserves_previous_bytes + мой
+   test_reject_report_keeps_bytes.
+4) Каждая попытка append-ила публикацию; release_id не существовал. Фикс:
+   разделение журнала попыток (attempts.jsonl) и событий фактического выпуска
+   (publications.jsonl), release_id = SHA-256(model, model_sha256, runtime,
+   evaluation_run_id, хеш отчёта), ровно одно событие на выпуск, восстановление
+   после сбоя между указателем и журналом, отбрасывание оборванной строки.
+   Тесты: test_repeat_release_no_duplicate_events,
+   test_journal_tolerates_torn_tail, test_crash_between_pointer_and_journal_recovers.
+5) ready=True в конструкторе до прогрева. Фикс: ready только после загрузки
+   backend + прогревочного вызова; до этого /ready и /generate — 503.
+   Тест: test_ready_requires_warmup (красный: d5-ready.log).
+6) Ответ рапортовал model_id из свежепрочитанного accepted.json. Фикс: ответ
+   содержит backend.loaded_id (фактически загруженную версию); /debug
+   показывает loaded и advertised. Тест: test_response_reports_loaded_version,
+   опыт: evidence/after/aba-experience.log.
+7) Валидация запроса отсутствовала: пустой prompt, max_new_tokens=0/100000/
+   строка доходили до backend. Фикс: проверка типа/границ ДО генерации
+   (поддерживаемый диапазон 1..32 из runtime.generation), 4xx без вызова
+   backend. Тест: test_invalid_requests_do_not_reach_backend.
+
+3. ЧТО ПЕРЕИСПОЛЬЗОВАНО ИЗ ДЗ 6+7 (hw67)
+-----------------------------------------
+- Training runs и sweep — без изменений, повторное обучение не выполнялось.
+- Полная оценка (eval run 7426f58975a748f88c6863c3701c7561): baseline =
+  Qwen/Qwen3-0.6B @ c1899de289a04d12100db370d81485cdf75e47ca; candidate =
+  models:/my-qwen-adapter/3 (LoRA, run 40fb010a42434f6b80ad07a6587911d7).
+- Правило допуска: quality_gate из hw67/evaluation/solution.py — используется
+  как есть (копия gate/hw67_solution.py, SHA-256 зафиксирован в
+  artifacts/real/source/source-manifest.json).
+- Golden set (52 MCQ, 5 срезов), behavioral (3 кейса), протокол
+  (evaluation/params.json): критический срез probability, greedy, лимит 32.
+- Результат гейта: ОТКАЗ кандидату (behavioral 0/3) — порог не ослаблялся,
+  см. artifacts/real/release-report-candidate-refused.json. Обслуживается
+  принятая baseline-версия (это разрешено условием и не снижает балл).
+
+4. ГРАФ ЗАДАЧ, КЛЮЧ КЕША, ПОВТОРЫ
+----------------------------------
+Prefect-flow release_flow (flow.py):
+  prepare-input (кешируемая) -> resolve-candidate -> gate-decision ->
+  publish-release. Между задачами передаются небольшие описания: пути, id,
+  хеши, outcome. Веса и тензоры как результаты задач не передаются. Стадия
+  получения артефакта читает ГОТОВЫЙ training run ДЗ 6+7 — чтение результата,
+  не повторное обучение (повторный sweep не выполнялся).
+
+Ключ кеша стадии подготовки — release.cache_key: SHA-256 канонического JSON
+{data_sha256, config}, где config = {tokenizer_revision, template_sha256,
+max_length, code_revision}. Файл и mtime не участвуют. Результат сохраняется
+Prefect (persist_result, LocalFileSystem внутри рабочего каталога,
+.lab-flow/prefect-results/) и читается после завершения процесса.
+
+Где возможен повтор: подготовка (кеш по содержимому), публикация ТОГО ЖЕ
+выпуска (already-published без записи). Где запрещён: публикация другого
+выпуска всегда создаёт ровно одно новое событие; повторная оценка требуется
+при изменении модели/данных/условий генерации.
+
+Политика повторов: в пути выпуска нет сетевых операций — артефакт читается
+из локального snapshot HF-кеша, поэтому ограниченный retry для временной
+сетевой ошибки не требуется; если появится удалённое хранилище, повторять
+можно только транзиентные ошибки транспорта. Неверная схема отчёта,
+несовместимые веса (хеш файлов) и отказ по качеству (quality_gate) —
+ValueError без повторов: повтор не исправляет (процесс завершается кодом 2,
+указатель и журнал событий не меняются).
+
+5. ПРОХОДЫ: УСПЕХ, СБОЙ, ВОССТАНОВЛЕНИЕ, ИЗМЕНЕНИЕ ВХОДА
+---------------------------------------------------------
+Логи Prefect (flow run id в каждом логе):
+  evidence/after/flow-crash.log      — run --fail-after-prepare: prepare
+      Completed (результат сохранен), flow Failed, exit 1;
+  evidence/after/flow-recover.log    — повтор в новом процессе: задача
+      prepare-input в состоянии Cached(type=COMPLETED), подготовка не
+      повторялась, публикация outcome=published, exit 0;
+  evidence/after/flow-invalidate.log — изменены байты input.txt: новый ключ,
+      PREPARED (rows=1), событие уже есть — outcome=already-published.
+Те же свойства на CLI (subprocess, отдельные каталоги):
+  tests.test_integration::test_crash_recovery_and_cache_invalidation —
+  сбой -> CACHE_HIT -> PREPARED после изменения байтов -> PREPARED после
+  изменения max_length конфига. Идентичность результата (тот же input_sha256
+  из кеша) отличается от идентичности попытки (каждая попытка — новая запись
+  в attempts.jsonl; событие выпуска — одно).
+
+6. GATE: СВЯЗАННЫЙ ОТЧЁТ, ОТРИЦАТЕЛЬНЫЕ ПРОВЕРКИ
+-------------------------------------------------
+release-report.json создаётся обвязкой, а не руками:
+  - фикстурный стенд: validate_release требует статус complete, настоящий
+    boolean passed, evaluation_run_id, совпадение model_id и четырёх хешей с
+    манифестом, конечные accuracy/format_rate в [0,1];
+  - реальный выпуск: make_real_release.py вызывает quality_gate ДЗ 6+7 на
+    замороженных отчётах (хеши в artifacts/real/source/source-manifest.json),
+    кандидат REFUSED; baseline публикуется с release-report-baseline.json,
+    где passed=true означает «полная оценка завершена без ошибок генерации,
+    отчёт связан с манифестом, версия удерживается после отказа кандидата» —
+    это решение процесса (retain), а не результат сравнения baseline с самим
+    собой. PASS из фикстур никогда не подставляется в реальный выпуск:
+    фикстуры живут в .lab-* (synthetic=true), реальный выпуск — только из
+    отчетов ДЗ 6+7 с их исходными хешами.
+Отрицательные проверки (все падают с ValueError, указатель побайтно не меняется):
+  неполный отчёт (status=running, passed='false' строкой) —
+  tests.test_integration::test_incomplete_report_refused + лог
+  d2-publish.log (SHA-256 accepted.json до/после); чужой отчёт A для B —
+  test_report_binds_to_its_model; отказ по качеству (passed=false) —
+  test_reject_report_keeps_bytes; NaN/Inf/чужие хеши/runtime со свежим хешем —
+  публичные тесты (test_invalid_metric_rejected и др.); ошибка записи —
+  публичный test_failed_atomic_replace_preserves_previous_bytes (mock os.replace).
+Почему PASS из фикстуры не оценка модели: фикстуры синтетические
+(STUB ONLY, synthetic=true), их метрики (0.8/1.0) не измерены на данных;
+реальная связь training run -> eval -> решение -> загруженная модель:
+  run 40fb010a… (адаптер) -> candidate-eval.json -> quality_gate REFUSE ->
+  удержание baseline (Qwen3-0.6B @ c1899de…) -> загружена в API (см. раздел 7).
+
+7. API: РЕАЛЬНЫЙ СЕРВИС
+------------------------
+FastAPI (service.py): GET /health (живость), GET /ready (200 только после
+проверки хешей артефакта, загрузки весов и прогревочного вызова; до этого
+503), GET /debug (тестовый маршрут: loaded/advertised, calls, warmup),
+POST /generate.
+Сервис читает принятый манифест (artifacts/real/accepted.json), сверяет
+SHA-256 всех закрепленных файлов артефакта (1.5 ГБ) до загрузки и загружает
+Qwen3-0.6B @ c1899de… с dtype float32 и параметрами генерации из
+manifest.runtime — теми же условиями, что при оценке. Случайный локальный
+конфиг не используется.
+Лимиты: max_new_tokens 1..32 (зафиксирован протоколом, сообщение об ошибке
+называет диапазон), prompt <= 2048 символов, тело <= 64 КБ, параллельные
+вычисления ограничены (semaphore=1 для реальных весов; очередь честно видна
+в поле queue_seconds). Изменение лимита на запрос наследует допуск только
+внутри диапазона 1..32; произвольные настройки генерации API не принимает.
+Ответ: answer, output_tokens (фактическое число), model_id (фактически
+загруженный), runtime_sha256, request_id, queue_seconds, generation_seconds.
+Реальный smoke (evidence/after/real-smoke.log): ready 200 с model_id и
+runtime_sha256; реальный ответ Qwen3-0.6B — 32 токена, generation ~3.2 с;
+max_new_tokens=100000 -> 400 «поддерживается диапазон 1..32», calls не
+вырос. Неверный запрос без вызова backend — tests.test_integration::
+test_invalid_requests_do_not_reach_backend (5 неверных -> 0 вызовов).
+Версия в памяти: до перезапуска API отвечает загруженной версией, даже если
+accepted.json сменился; после перезапуска загружается согласованный выпуск
+— опыт A -> B -> A: evidence/after/aba-experience.log (STUB-версии;
+реальный smoke — отдельная проверка, фикстуры не выдаются за модель).
+
+8. ЗАМЕР (часть D)
+-------------------
+Условия: реальный сервис Qwen3-0.6B float32 CPU, прогрев 1 запрос, один и
+тот же набор из 8 ASCII-запросов (choices A–D), max_new_tokens=32 для всех,
+backend semaphore=1 (последовательные веса). Каждая попытка в
+measurements/bench-*.jsonl и *.csv (id, режим, статус, клиентская задержка,
+queue/generation seconds, model_id, output_tokens; ошибок не было — поле
+error осталось null, из журнала ничего не удалялось).
+
+  mode     n  ok/err  package_s  req/s   avg_lat_s  max_lat_s  avg_gen_s  tokens
+  conc1    8  8/0     21.356     0.375   2.669      2.791      2.658      256
+  conc2    8  8/0     23.669     0.338   5.527      6.031      2.958      256
+
+Объяснение: в conc2 клиентская задержка удвоилась (avg 5.5 c), при этом
+суммарное время пакета почти не изменилось (21.4 -> 23.7 c): каждый второй
+запрос ждал освобождения весов в очереди (queue_seconds 2.8–3.2 c у 7 из 8),
+а не считался дольше (avg_gen 2.66 -> 2.96 c — разброс прогрева CPU).
+Ожидание (очередь) и вычисление (prefill+decode) разделены полями
+queue_seconds и generation_seconds. Prefill — обработка промпта до первого
+токена (короткий промпт -> доля мала), decode — авторегрессия 32 токенов,
+KV-cache растет линейно по длине контекста; при едином JSON-ответе измеряется
+полная задержка — TTFT/ITL отдельно не выделяются и не выдумываются.
+Ограничения: n=8 — на такой выборке устойчивый p95 не вычисляется и не
+заявляется; последовательный CPU-Transformers не доказывает скорость
+SGLang/vLLM (тот не измерялся: непрерывная батчировка иpaged KV-cache —
+другая архитектура обслуживания); замер — не бенчмарк железа.
+
+9. STUB-ОПЫТ И ВОССТАНОВЛЕНИЕ ПОСЛЕ СБОЯ
+-----------------------------------------
+A -> B -> A (evidence/after/aba-experience.log):
+  1) сервис на A: pointer=A, loaded=A, ответ=A;
+  2) опубликован B в другом процессе, БЕЗ перезапуска: pointer=B, loaded=A,
+     ответ рапортует A (фактически загруженную версию);
+  3) управляемый перезапуск: loaded=B, ответ=B;
+  4) откат к ранее принятой A (run --report report-A.json) + перезапуск:
+     pointer=A, loaded=A, ответ=A — подтвержден ответом.
+Журнал событий: ровно 2 записи (B и A, по одной на выпуск).
+Повтор выпуска после сбоя между указателем и журналом:
+  tests.test_integration::test_crash_between_pointer_and_journal_recovers —
+  указатель заменен, журнал пуст; повтор восстанавливает согласованность:
+  ровно одно событие, повторный запуск не дублирует (outcome=recovered).
+Реальный smoke выполняется отдельно от STUB-опытов (см. раздел 7).
+
+10. БЫСТРЫЕ ПРОВЕРКИ И ТРИГГЕРЫ
+--------------------------------
+make check: зелёный прогон 27 тестов (evidence/after/check-green.log, exit 0);
+намеренная поломка release.py -> 7 failures + 6 errors, exit 1
+(evidence/after/check-broken.log); код восстановлен — снова зелёный.
+CI: ci.yml (GitHub Actions, Python 3.12, requirements-fast.txt) выполнит те
+же команды; удалённый run не настроен — защиту merge НЕ заявляю, локальный
+эквивалент полностью засчитывается по условию.
+Таблица триггеров с командами проекта: docs/triggers.md.
+
+11. ОГРАНИЧЕНИЯ
+----------------
+- Замер: n=8 (без p95), один хост, CPU, последовательный backend; conc2
+  ограничена semaphore=1 — конкурентная батчировка не измерялась.
+- Кандидат честно отклонен (behavioral 0/3) — обслуживается baseline с
+  accuracy 0.0/52: качество модели — унаследованный результат ДЗ 6+7,
+  пороги не ослаблялись; короткий train-бюджет (4 шага) не повторялся.
+- behavioral/golden повторно не оценивались (условия генерации не менялись).
+- STUB-версии A/B — инженерные фикстуры для проверки управления версиями;
+  реальная смена версий в API демонстрируется перезапуском на принятый
+  манифест (механизм тот же).
+- Скорость SGLang/vLLM, Docker-публикация, Kubernetes, стриминг/TTFT —
+  вне обязательной части (не выполнялись).
+
+12. ВИДЕО
+----------
+Сценарий записи 5–8 минут со списком команд и журналов: docs/video-script.md.
+Ссылка на записанное видео добавляется при сдаче (запись выполняется по
+сохранённым журналам для тяжёлых шагов: загрузка весов, замер).
+
+13. ДОСТУП ПРЕПОДАВАТЕЛЯ
+-------------------------
+- Репозиторий: локальный git (два коммита); архив передаётся без весов,
+  .venv, кешей и .lab-* каталогов (.gitignore настроен).
+- Реальная модель: Qwen/Qwen3-0.6B @ c1899de289a04d12100db370d81485cdf75e47ca
+  из публичного HF-хаба (локальный кеш ~1.5 ГБ; file_hashes в манифесте
+  позволяют проверить любую копию побайтно).
+- Данные оценки ДЗ 6+7: C:\Users\user\Documents\GitHub\hw67 (data/eval/*,
+  DVC remote ..\dvc_remote; hash-и заморожены в artifacts/real/source/).
+- Воспроизведение: make check; make release-real; make smoke; make bench;
+  make aba (см. docs/video-script.md).

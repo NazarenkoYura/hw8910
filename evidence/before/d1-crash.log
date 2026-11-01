@@ -1,0 +1,13 @@
+PREPARED 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\hw8910-broken\lab.py", line 84, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "C:\Users\user\Documents\GitHub\hw8910\hw8910-broken\lab.py", line 81, in main
+    else:run(args.workspace,args.report,args.fail_after_prepare)
+         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\hw8910-broken\lab.py", line 67, in run
+    if fail_after_prepare:raise RuntimeError('Инъекция сбоя после подготовки')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Инъекция сбоя после подготовки
+exit_crash=1

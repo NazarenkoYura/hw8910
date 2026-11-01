@@ -1,0 +1,18 @@
+name: Fast release checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # release.py/process.py и tests/ лежат в корне репозитория.
+      - run: pip install -r requirements-fast.txt
+      - run: python -m compileall -q release.py process.py lab.py service.py backends.py flow.py tests
+      # Быстрые проверки без весов: 13 приложенных тестов + собственные
+      # интеграционные (subprocess с lab.py, реальный локальный HTTP, stub).
+      - run: python -m unittest discover -s tests -v

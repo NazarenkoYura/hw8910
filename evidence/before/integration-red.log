@@ -1,0 +1,149 @@
+test_crash_between_pointer_and_journal_recovers (tests.test_integration.IntegrationTests.test_crash_between_pointer_and_journal_recovers)
+Сбой между обновлением указателя и записью журнала: повтор ... FAIL
+test_crash_recovery_and_cache_invalidation (tests.test_integration.IntegrationTests.test_crash_recovery_and_cache_invalidation)
+Сбой после подготовки; повтор в новом процессе берет кеш; изменение ... FAIL
+test_incomplete_report_refused (tests.test_integration.IntegrationTests.test_incomplete_report_refused)
+Неполный отчет (status=running, passed='false' строкой) не получает выпуск. ... FAIL
+test_invalid_requests_do_not_reach_backend (tests.test_integration.IntegrationTests.test_invalid_requests_do_not_reach_backend)
+Пустой prompt, max_new_tokens=0/100000/строка, не-строка prompt: ... FAIL
+test_journal_tolerates_torn_tail (tests.test_integration.IntegrationTests.test_journal_tolerates_torn_tail)
+Оборванная строка журнала (сбой во время записи) не ломает журнал: ... FAIL
+test_ready_requires_warmup (tests.test_integration.IntegrationTests.test_ready_requires_warmup)
+Сразу после старта /ready и /generate не обслуживают до конца прогрева. ... FAIL
+test_reject_report_keeps_bytes (tests.test_integration.IntegrationTests.test_reject_report_keeps_bytes)
+Отказ по качеству сохраняет прежний accepted.json побайтно и не пишет событие. ... ok
+test_repeat_release_no_duplicate_events (tests.test_integration.IntegrationTests.test_repeat_release_no_duplicate_events)
+Два одинаковых выпуска B: журнал попыток — две попытки, журнал ... FAIL
+test_report_binds_to_its_model (tests.test_integration.IntegrationTests.test_report_binds_to_its_model)
+Отчет допуска применяется к своему кандидату: отчет A не может ... FAIL
+test_response_reports_loaded_version (tests.test_integration.IntegrationTests.test_response_reports_loaded_version)
+Сервис на A, в другом процессе опубликован B: до перезапуска ответ ... FAIL
+test_rollback_to_previous_accepted (tests.test_integration.IntegrationTests.test_rollback_to_previous_accepted)
+A -> B -> откат к A: указатель возвращается, у каждого выпуска ровно ... FAIL
+
+======================================================================
+FAIL: test_crash_between_pointer_and_journal_recovers (tests.test_integration.IntegrationTests.test_crash_between_pointer_and_journal_recovers)
+Сбой между обновлением указателя и записью журнала: повтор
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 264, in test_crash_between_pointer_and_journal_recovers
+    self.assertEqual(len(events(self.ws)), 1, "повтор после восстановления не дублирует событие")
+AssertionError: 2 != 1 : повтор после восстановления не дублирует событие
+
+======================================================================
+FAIL: test_crash_recovery_and_cache_invalidation (tests.test_integration.IntegrationTests.test_crash_recovery_and_cache_invalidation)
+Сбой после подготовки; повтор в новом процессе берет кеш; изменение
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 164, in test_crash_recovery_and_cache_invalidation
+    self.assertIn("PREPARED", changed.stdout,
+AssertionError: 'PREPARED' not found in 'CACHE_HIT 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac\nPUBLISHED fixture-B\n' : после изменения байтов входа кеш не может быть валиден
+
+======================================================================
+FAIL: test_incomplete_report_refused (tests.test_integration.IntegrationTests.test_incomplete_report_refused)
+Неполный отчет (status=running, passed='false' строкой) не получает выпуск.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 183, in test_incomplete_report_refused
+    self.assertNotEqual(result.returncode, 0,
+AssertionError: 0 == 0 : неполный отчет обязан отказать с ненулевым кодом
+
+======================================================================
+FAIL: test_invalid_requests_do_not_reach_backend (tests.test_integration.IntegrationTests.test_invalid_requests_do_not_reach_backend)
+Пустой prompt, max_new_tokens=0/100000/строка, не-строка prompt:
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 365, in test_invalid_requests_do_not_reach_backend
+    self.assertTrue(400 <= status < 500,
+AssertionError: False is not true : {'prompt': '', 'max_new_tokens': 8}: ожидается 4xx, получено 200 {'answer': 'STUB ONLY: fixture-A', 'output_tokens': 1, 'model_id': 'fixture-A', 'runtime_sha256': 'bc7bd5a4806e2e0e3b8569666b251d6c59a8d8e01e37fc37bf95b534023ca547', 'request_id': '3a4d5b36-94c5-4816-8048-767e031a65a6', 'generation_seconds': 0.01050840000016251}
+
+======================================================================
+FAIL: test_journal_tolerates_torn_tail (tests.test_integration.IntegrationTests.test_journal_tolerates_torn_tail)
+Оборванная строка журнала (сбой во время записи) не ломает журнал:
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 241, in test_journal_tolerates_torn_tail
+    parsed = [json.loads(line) for line in lines]
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\json\decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 1 column 19 (char 18)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 243, in test_journal_tolerates_torn_tail
+    self.fail(f"журнал событий нечитаем после повтора (сбояная строка не отброшена): {error}")
+AssertionError: журнал событий нечитаем после повтора (сбояная строка не отброшена): Expecting ',' delimiter: line 1 column 19 (char 18)
+
+======================================================================
+FAIL: test_ready_requires_warmup (tests.test_integration.IntegrationTests.test_ready_requires_warmup)
+Сразу после старта /ready и /generate не обслуживают до конца прогрева.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 295, in test_ready_requires_warmup
+    self.assertEqual(status, 503, f"во время прогрева ready должен быть 503: {ready_body}")
+AssertionError: 200 != 503 : во время прогрева ready должен быть 503: {'ready': True}
+
+======================================================================
+FAIL: test_repeat_release_no_duplicate_events (tests.test_integration.IntegrationTests.test_repeat_release_no_duplicate_events)
+Два одинаковых выпуска B: журнал попыток — две попытки, журнал
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 221, in test_repeat_release_no_duplicate_events
+    self.assertEqual(len(events(self.ws)), 1,
+AssertionError: 2 != 1 : повтор того же выпуска не должен создавать событие: [{'model_id': 'fixture-B', 'prepared': '19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac'}, {'model_id': 'fixture-B', 'prepared': '19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac'}]
+
+======================================================================
+FAIL: test_report_binds_to_its_model (tests.test_integration.IntegrationTests.test_report_binds_to_its_model)
+Отчет допуска применяется к своему кандидату: отчет A не может
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 196, in test_report_binds_to_its_model
+    self.assertEqual(pointer["model_id"], "fixture-A",
+AssertionError: 'fixture-B' != 'fixture-A'
+- fixture-B
+?         ^
++ fixture-A
+?         ^
+ : отчет fixture-A должен выпускать модель fixture-A
+
+======================================================================
+FAIL: test_response_reports_loaded_version (tests.test_integration.IntegrationTests.test_response_reports_loaded_version)
+Сервис на A, в другом процессе опубликован B: до перезапуска ответ
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 340, in test_response_reports_loaded_version
+    self.assertEqual(gen["model_id"], debug["loaded_id"],
+AssertionError: 'fixture-B' != 'fixture-A'
+- fixture-B
+?         ^
++ fixture-A
+?         ^
+ : ответ должен рапортовать о загруженной версии, не об указателе: {'answer': 'STUB ONLY: fixture-A', 'output_tokens': 1, 'model_id': 'fixture-B', 'runtime_sha256': 'bc7bd5a4806e2e0e3b8569666b251d6c59a8d8e01e37fc37bf95b534023ca547', 'request_id': '89329092-6d3b-4910-ba30-4f00287f8fc0', 'generation_seconds': 0.011312999999972817}
+
+======================================================================
+FAIL: test_rollback_to_previous_accepted (tests.test_integration.IntegrationTests.test_rollback_to_previous_accepted)
+A -> B -> откат к A: указатель возвращается, у каждого выпуска ровно
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 275, in test_rollback_to_previous_accepted
+    self.assertEqual(pointer["model_id"], "fixture-A", "откат должен вернуть принятую A")
+AssertionError: 'fixture-B' != 'fixture-A'
+- fixture-B
+?         ^
++ fixture-A
+?         ^
+ : откат должен вернуть принятую A
+
+----------------------------------------------------------------------
+Ran 11 tests in 4.774s
+
+FAILED (failures=10)

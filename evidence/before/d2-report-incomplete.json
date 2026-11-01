@@ -1,0 +1,15 @@
+{
+  "model_id": "fixture-B",
+  "model_sha256": "a3adb191733d9082ef27d5857e915f82f0821fc4d738cb236e7149f8fd9f14a8",
+  "protocol_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "golden_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "runtime_sha256": "bc7bd5a4806e2e0e3b8569666b251d6c59a8d8e01e37fc37bf95b534023ca547",
+  "status": "running",
+  "passed": "false",
+  "evaluation_run_id": "fixture-eval-B",
+  "metrics": {
+    "accuracy": 0.8,
+    "format_rate": 1.0
+  },
+  "synthetic": true
+}

@@ -1,0 +1,3 @@
+accepted.json model_id (pointer): fixture-B
+/debug: http=200 body={"loaded_id": "fixture-A", "calls": 1, "warmup_finished": false}
+generate-response-model_id: http=200 model_id=fixture-B loaded_must_match=True

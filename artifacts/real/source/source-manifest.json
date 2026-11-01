@@ -1,0 +1,12 @@
+{
+  "files": {
+    "baseline-eval.json": "406b21978ab6148d6aa55b20742294077b79e89cc66c338738bcd8e94f284d84",
+    "candidate-eval.json": "f1f29f39f8ede1b5345405f060df00025e0ee48c51b6d079941d14b781df36d7",
+    "quality-gate.json": "17a37ac50b6e544fb731bcaf7b2b92a5bed8478d72fc01ed0f5896f6b131c1cf",
+    "negative-gate.json": "64161286fc811d55a2cad575ba8c89adf17412fa22fcd485e4e5f901b5611623",
+    "protocol-params.json": "40324f91edc139747d7a59f1712083898cd84d2c2b84dbb5110ece590f5e62fc",
+    "baseline-spec.json": "f15050e1764856424c05adf6836e0b72140baeef27422dc3d33f236d23cf0ca0"
+  },
+  "gate_code_sha256": "ea1b96209a057fa6537a99e52e18a2cf8d0dfda184c0cc06a6ab6e0797c82f58",
+  "origin": "C:\\Users\\user\\Documents\\GitHub\\hw67"
+}

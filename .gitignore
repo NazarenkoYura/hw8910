@@ -1,0 +1,10 @@
+# Веса и тяжёлые кеши в Git не включать
+.venv/
+__pycache__/
+*.pyc
+.prefect/
+.lab*/
+artifacts/real/model/
+*.safetensors
+measures/*.log
+.pytest_cache/

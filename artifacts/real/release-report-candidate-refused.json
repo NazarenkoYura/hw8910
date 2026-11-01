@@ -1,0 +1,7 @@
+{
+  "status": "complete",
+  "passed": false,
+  "evaluation_run_id": "7426f58975a748f88c6863c3701c7561",
+  "gate_reason": "candidate: пройдены не все behavioral-кейсы (0/3)",
+  "gate_evidence": "quality_gate ДЗ 6+7 отклонил кандидата"
+}
