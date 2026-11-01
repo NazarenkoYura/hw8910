@@ -1,0 +1,8 @@
+# Полный локальный стенд ДЗ 8+9-10 (Python 3.12): процесс, Prefect, FastAPI,
+# реальный backend ДЗ 6+7. Тяжелые пакеты (torch/transformers) нужны только
+# для реального smoke и замера; быстрые проверки — requirements-fast.txt.
+-r requirements-fast.txt
+prefect==3.9.1
+transformers==5.22.1
+peft==0.21.2
+torch==2.15.0

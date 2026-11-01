@@ -1,0 +1,7 @@
+== Опыт A -> B -> A на двух STUB-версиях (это инженерная проверка, не eval) ==
+[1. сервис запущен на A] pointer=fixture-A loaded=fixture-A response_model_id=fixture-A calls=1
+[2. опубликован B, БЕЗ перезапуска: ответ и loaded остаются A] pointer=fixture-B loaded=fixture-A response_model_id=fixture-A calls=2
+[3. после управляемого перезапуска: загружен и рапортуется B] pointer=fixture-B loaded=fixture-B response_model_id=fixture-B calls=1
+[4. откат к ранее принятой A + перезапуск] pointer=fixture-A loaded=fixture-A response_model_id=fixture-A calls=1
+journal событий: 2 (B и A, по одному на выпуск — без дубликатов и повторов)
+== ОПЫТ A->B->A OK ==

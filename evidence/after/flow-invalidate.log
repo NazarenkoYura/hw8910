@@ -1,0 +1,12 @@
+16:55:43.839 | INFO    | prefect - Starting temporary server on http://127.0.0.1:8929
+See https://www.prefect.io/docs/v3/concepts/server#how-to-guides for more information on running a dedicated Prefect server.
+16:55:47.398 | INFO    | Flow run 'magnificent-shellfish' - Beginning flow run 'magnificent-shellfish' for flow 'release-flow'
+16:55:47.442 | INFO    | Task run 'prepare-input-c03' - PREPARED b196184cd9a963c4f6f4bbc5dc05bdf6e77d254cf7a00a6b075f30defa6f29b2 (rows=1)
+16:55:47.446 | INFO    | Task run 'prepare-input-c03' - Finished in state Completed()
+16:55:47.453 | INFO    | Task run 'resolve-candidate-884' - Finished in state Completed()
+16:55:47.458 | INFO    | Task run 'gate-decision-2e5' - GATE PASS fixture-B release_id=7c54a9ad53e5f55208bb0675105a0be0b1193bd687093ee05082888da1d5921d
+16:55:47.461 | INFO    | Task run 'gate-decision-2e5' - Finished in state Completed()
+16:55:47.465 | INFO    | Task run 'publish-release-cde' - PUBLISHED fixture-B outcome=already-published
+16:55:47.465 | INFO    | Task run 'publish-release-cde' - Finished in state Completed()
+16:55:48.412 | INFO    | Flow run 'magnificent-shellfish' - Finished in state Completed()
+16:55:48.427 | INFO    | prefect - Stopping temporary server on http://127.0.0.1:8929

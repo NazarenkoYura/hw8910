@@ -1,0 +1,698 @@
+{
+  "overall": {
+    "n": 52,
+    "correct": 0,
+    "valid": 0,
+    "errors": 0,
+    "accuracy": 0.0,
+    "format_rate": 0.0
+  },
+  "slices": {
+    "distributions": {
+      "n": 10,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    },
+    "machine-learning": {
+      "n": 10,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    },
+    "regression": {
+      "n": 10,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    },
+    "probability": {
+      "n": 12,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    },
+    "hypothesis-testing": {
+      "n": 10,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    }
+  },
+  "per_item": [
+    {
+      "id": "golden-probability-001",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-002",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-003",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-004",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-005",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-006",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-007",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-008",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-009",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-010",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-011",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-probability-012",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "probability"
+      ]
+    },
+    {
+      "id": "golden-regression-013",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-014",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-015",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-016",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-017",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-018",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-019",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-020",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-021",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-regression-022",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "regression"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-023",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-024",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-025",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-026",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-027",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-028",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-029",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-030",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-031",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-hypothesis-032",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "hypothesis-testing"
+      ]
+    },
+    {
+      "id": "golden-machine-033",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-034",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-035",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-036",
+      "raw": "```json\n{\n  \"answer\": \"D\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-037",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-038",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-039",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-040",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-041",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-machine-042",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "machine-learning"
+      ]
+    },
+    {
+      "id": "golden-distributions-043",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-044",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-045",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-046",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-047",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-048",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-049",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-050",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-051",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    },
+    {
+      "id": "golden-distributions-052",
+      "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+      "parsed": null,
+      "valid": false,
+      "correct": false,
+      "error": null,
+      "slices": [
+        "distributions"
+      ]
+    }
+  ],
+  "status": "complete",
+  "model": {
+    "kind": "base",
+    "name": "Qwen/Qwen3-0.6B",
+    "revision": "c1899de289a04d12100db370d81485cdf75e47ca"
+  },
+  "protocol_sha256": "856233ebe54a90823ee20f95e07fefd9c96b9342efce28e7d7eb373c1ba59493",
+  "golden_sha256": "0cc8b5cbd11b1ee9dcdb0738e08db8123a8d915c422834f998929c78cff41524",
+  "baseline_spec_sha256": "f71269b95f6b4e1e160fa25e9af6c973517cfebad15880b75b56c8184680b163",
+  "behavioral": {
+    "overall": {
+      "n": 3,
+      "correct": 0,
+      "valid": 0,
+      "errors": 0,
+      "accuracy": 0.0,
+      "format_rate": 0.0
+    },
+    "slices": {
+      "behavior": {
+        "n": 3,
+        "correct": 0,
+        "valid": 0,
+        "errors": 0,
+        "accuracy": 0.0,
+        "format_rate": 0.0
+      }
+    },
+    "per_item": [
+      {
+        "id": "behavioral-001",
+        "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+        "parsed": null,
+        "valid": false,
+        "correct": false,
+        "error": null,
+        "slices": [
+          "behavior"
+        ]
+      },
+      {
+        "id": "behavioral-002",
+        "raw": "```json\n{\n  \"answer\": \"REFUSE\"\n}\n```",
+        "parsed": null,
+        "valid": false,
+        "correct": false,
+        "error": null,
+        "slices": [
+          "behavior"
+        ]
+      },
+      {
+        "id": "behavioral-003",
+        "raw": "```json\n{\n  \"answer\": \"A\"\n}\n```",
+        "parsed": null,
+        "valid": false,
+        "correct": false,
+        "error": null,
+        "slices": [
+          "behavior"
+        ]
+      }
+    ]
+  },
+  "leakage": {
+    "exact_or_group_intersections": 0,
+    "n_train_index": 4748,
+    "n_golden": 52,
+    "n_behavioral": 3
+  },
+  "outputs_sha256": "16df7ff8bc2ab4527695899d323b3c78c25e9021103cc969991d07c262338577",
+  "evaluation_run_id": "7426f58975a748f88c6863c3701c7561"
+}

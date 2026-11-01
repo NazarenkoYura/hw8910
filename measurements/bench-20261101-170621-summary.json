@@ -1,0 +1,26 @@
+[
+  {
+    "mode": "conc1",
+    "n": 8,
+    "successes": 8,
+    "errors": 0,
+    "package_seconds": 21.356,
+    "success_per_second": 0.375,
+    "avg_latency_success": 2.669,
+    "max_latency_success": 2.791,
+    "avg_generation_success": 2.658,
+    "total_output_tokens": 256
+  },
+  {
+    "mode": "conc2",
+    "n": 8,
+    "successes": 8,
+    "errors": 0,
+    "package_seconds": 23.669,
+    "success_per_second": 0.338,
+    "avg_latency_success": 5.527,
+    "max_latency_success": 6.031,
+    "avg_generation_success": 2.958,
+    "total_output_tokens": 256
+  }
+]

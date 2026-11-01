@@ -1,0 +1,26 @@
+{
+  "status": "complete",
+  "passed": true,
+  "evaluation_run_id": "7426f58975a748f88c6863c3701c7561",
+  "model_id": "Qwen/Qwen3-0.6B",
+  "model_sha256": "052d8c0b8c31f61d79bcbbcca49c85414118746986773d57fb6a56f58e5a0c09",
+  "protocol_sha256": "856233ebe54a90823ee20f95e07fefd9c96b9342efce28e7d7eb373c1ba59493",
+  "golden_sha256": "0cc8b5cbd11b1ee9dcdb0738e08db8123a8d915c422834f998929c78cff41524",
+  "runtime_sha256": "b5da3a91023bb6613801c2fc0102f2f1b3f43331cc1943dcaf3775314823e098",
+  "metrics": {
+    "accuracy": 0.0,
+    "format_rate": 0.0
+  },
+  "decision": "retain-baseline",
+  "gate_evidence": {
+    "gate_code": "gate/hw67_solution.py (копия evaluation/solution.py ДЗ 6+7)",
+    "gate_code_sha256": "ea1b96209a057fa6537a99e52e18a2cf8d0dfda184c0cc06a6ab6e0797c82f58",
+    "candidate_refused": true,
+    "candidate_refusal_reason": "candidate: пройдены не все behavioral-кейсы (0/3)",
+    "candidate_eval_sha256": "f1f29f39f8ede1b5345405f060df00025e0ee48c51b6d079941d14b781df36d7",
+    "baseline_eval_sha256": "406b21978ab6148d6aa55b20742294077b79e89cc66c338738bcd8e94f284d84",
+    "critical_slices": [
+      "probability"
+    ]
+  }
+}

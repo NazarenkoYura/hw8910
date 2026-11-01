@@ -1,0 +1,9 @@
+== Запуск сервиса на Qwen/Qwen3-0.6B (загрузка реальных весов на CPU занимает минуты) ==
+health: {"alive": true, "backend": "transformers", "ready": false}
+== Ожидание /ready (проверка хешей 1.5 ГБ + загрузка весов) ==
+ready: http=200 {"ready": true, "model_id": "Qwen/Qwen3-0.6B", "runtime_sha256": "b5da3a91023bb6613801c2fc0102f2f1b3f43331cc1943dcaf3775314823e098"}
+debug: {"loaded_id": "Qwen/Qwen3-0.6B", "runtime_sha256": "b5da3a91023bb6613801c2fc0102f2f1b3f43331cc1943dcaf3775314823e098", "advertised_id": "Qwen/Qwen3-0.6B", "pointer_matches_loaded": true, "calls": 1, "warmup_finished": true, "ready": true, "backend": "transformers"}
+REAL ANSWER http=200: {"answer": " The answer is B, but I need to explain why. Also, what is the range? The answer is D, but I need to explain why. Also", "output_tokens": 32, "generation_seconds_backend": 3.192153099999814, "model_id": "Qwen/Qwen3-0.6B", "runtime_sha256": "b5da3a91023bb6613801c2fc0102f2f1b3f43331cc1943dcaf3775314823e098", "request_id": "0fb8268a-e54c-4d82-ac03-c05917057f0e", "ready": true, "queue_seconds": 5.300000339047983e-06, "generation_seconds": 3.192205900000772}
+invalid request: http=400 body={"error": "max_new_tokens: поддерживается диапазон 1..32"}
+calls_after_invalid=2 (до неверного запроса было 2)
+== REAL SMOKE OK ==

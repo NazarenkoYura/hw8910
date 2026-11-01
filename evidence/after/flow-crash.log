@@ -1,0 +1,51 @@
+16:55:29.695 | INFO    | prefect - Starting temporary server on http://127.0.0.1:8553
+See https://www.prefect.io/docs/v3/concepts/server#how-to-guides for more information on running a dedicated Prefect server.
+16:55:33.236 | INFO    | Flow run 'gracious-kittiwake' - Beginning flow run 'gracious-kittiwake' for flow 'release-flow'
+16:55:33.272 | INFO    | Task run 'prepare-input-b5a' - PREPARED 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac (rows=2)
+16:55:33.279 | INFO    | Task run 'prepare-input-b5a' - Finished in state Completed()
+16:55:34.250 | ERROR   | Flow run 'gracious-kittiwake' - Encountered exception during execution: RuntimeError('Инъекция сбоя после подготовки')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 144, in release_flow
+    raise RuntimeError("Инъекция сбоя после подготовки")
+RuntimeError: Инъекция сбоя после подготовки
+16:55:34.274 | INFO    | Flow run 'gracious-kittiwake' - Finished in state Failed('Flow run encountered an exception: RuntimeError: Инъекция сбоя после подготовки')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 178, in <module>
+    main()
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 169, in main
+    release_flow(workspace=str(args.workspace), report_name=args.report,
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flows.py", line 1887, in __call__
+    return run_flow(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2290, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2135, in run_flow_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 788, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 144, in release_flow
+    raise RuntimeError("Инъекция сбоя после подготовки")
+RuntimeError: Инъекция сбоя после подготовки
+16:55:34.287 | INFO    | prefect - Stopping temporary server on http://127.0.0.1:8553

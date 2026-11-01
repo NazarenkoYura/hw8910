@@ -1,0 +1,1151 @@
+17:09:12.432 | INFO    | prefect - Starting temporary server on http://127.0.0.1:8306
+See https://www.prefect.io/docs/v3/concepts/server#how-to-guides for more information on running a dedicated Prefect server.
+17:09:15.477 | INFO    | Flow run 'bright-warthog' - Beginning flow run 'bright-warthog' for flow 'release-flow'
+17:09:15.565 | INFO    | Task run 'prepare-input-d24' - PREPARED 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac (rows=2)
+17:09:15.569 | INFO    | Task run 'prepare-input-d24' - Finished in state Completed()
+17:09:15.571 | INFO    | Task run 'resolve-candidate-b8c' - Finished in state Completed()
+17:09:15.581 | ERROR   | Task run 'gate-decision-b5c' - Task run failed with exception: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:15.581 | ERROR   | Task run 'gate-decision-b5c' - Finished in state Failed('Task run encountered an exception ValueError: Демо-поломка быстрых проверок')
+17:09:15.601 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-6d33-7d81-9e94-07d3d6404d49', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:15.571185', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "0e2ee32a-88aa-4a20-bf26-dc6b5966b1dc", "task_run_id": "01a19771-6d33-7d81-9e94-07d3d6404d49", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-6d33-7f53-b892-5c97c173bd5d', 'created_m0': '2026-11-01 14:09:15.601920', 'updated': '2026-11-01 14:09:15.601920'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+17:09:15.667 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-6d33-7d81-9e94-07d3d6404d49', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:15.571185', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "0e2ee32a-88aa-4a20-bf26-dc6b5966b1dc", "task_run_id": "01a19771-6d33-7d81-9e94-07d3d6404d49", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-6d33-7f53-b892-5c97c173bd5d', 'created_m0': '2026-11-01 14:09:15.666420', 'updated': '2026-11-01 14:09:15.666420'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+17:09:16.494 | ERROR   | Flow run 'bright-warthog' - Encountered exception during execution: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 147, in release_flow
+    decision = gate_stage(candidate)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\tasks.py", line 1240, in __call__
+    return run_task(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1988, in run_task
+    return run_task_sync(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1758, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 622, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:16.518 | INFO    | Flow run 'bright-warthog' - Finished in state Failed('Flow run encountered an exception: ValueError: Демо-поломка быстрых проверок')
+.17:09:16.584 | INFO    | Flow run 'fiery-caribou' - Beginning flow run 'fiery-caribou' for flow 'release-flow'
+17:09:16.619 | INFO    | Task run 'prepare-input-fe1' - PREPARED 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac (rows=2)
+17:09:16.625 | INFO    | Task run 'prepare-input-fe1' - Finished in state Completed()
+17:09:16.627 | INFO    | Task run 'resolve-candidate-2e5' - Finished in state Completed()
+17:09:16.627 | ERROR   | Task run 'gate-decision-dc8' - Task run failed with exception: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:16.636 | ERROR   | Task run 'gate-decision-dc8' - Finished in state Failed('Task run encountered an exception ValueError: Демо-поломка быстрых проверок')
+17:09:16.688 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-6d33-7d81-9e94-07d3d6404d49', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:15.571185', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "0e2ee32a-88aa-4a20-bf26-dc6b5966b1dc", "task_run_id": "01a19771-6d33-7d81-9e94-07d3d6404d49", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-6d33-7f53-b892-5c97c173bd5d', 'created_m0': '2026-11-01 14:09:16.677769', 'updated': '2026-11-01 14:09:16.677769'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+17:09:17.587 | ERROR   | Flow run 'fiery-caribou' - Encountered exception during execution: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 147, in release_flow
+    decision = gate_stage(candidate)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\tasks.py", line 1240, in __call__
+    return run_task(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1988, in run_task
+    return run_task_sync(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1758, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 622, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:17.609 | INFO    | Flow run 'fiery-caribou' - Finished in state Failed('Flow run encountered an exception: ValueError: Демо-поломка быстрых проверок')
+E17:09:17.672 | INFO    | Flow run 'archetypal-urchin' - Beginning flow run 'archetypal-urchin' for flow 'release-flow'
+17:09:17.704 | INFO    | Task run 'prepare-input-0cc' - PREPARED 19b8b0a21157bd3e44e7afd00735c6fd9cdf05ee7f668a5013f5c9f1ff16c1ac (rows=2)
+17:09:17.711 | INFO    | Task run 'prepare-input-0cc' - Finished in state Completed()
+17:09:17.711 | INFO    | Task run 'resolve-candidate-e70' - Finished in state Completed()
+17:09:17.721 | ERROR   | Task run 'gate-decision-2d6' - Task run failed with exception: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:17.722 | ERROR   | Task run 'gate-decision-2d6' - Finished in state Failed('Task run encountered an exception ValueError: Демо-поломка быстрых проверок')
+17:09:17.753 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-6d33-7d81-9e94-07d3d6404d49', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:15.571185', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "0e2ee32a-88aa-4a20-bf26-dc6b5966b1dc", "task_run_id": "01a19771-6d33-7d81-9e94-07d3d6404d49", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-6d33-7f53-b892-5c97c173bd5d', 'created_m0': '2026-11-01 14:09:17.753151', 'updated': '2026-11-01 14:09:17.753151'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+17:09:17.800 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-6d33-7d81-9e94-07d3d6404d49', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:15.571185', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "0e2ee32a-88aa-4a20-bf26-dc6b5966b1dc", "task_run_id": "01a19771-6d33-7d81-9e94-07d3d6404d49", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-6d33-7f53-b892-5c97c173bd5d', 'created_m0': '2026-11-01 14:09:17.799083', 'updated': '2026-11-01 14:09:17.799625'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+17:09:18.674 | ERROR   | Flow run 'archetypal-urchin' - Encountered exception during execution: ValueError('Демо-поломка быстрых проверок')
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 147, in release_flow
+    decision = gate_stage(candidate)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\tasks.py", line 1240, in __call__
+    return run_task(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1988, in run_task
+    return run_task_sync(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1758, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 622, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+17:09:18.699 | INFO    | Flow run 'archetypal-urchin' - Finished in state Failed('Flow run encountered an exception: ValueError: Демо-поломка быстрых проверок')
+EEF.17:09:20.079 | ERROR   | prefect.server.services.task_run_recorder - Error flushing 1 events (1 to retry, 0 dropped)
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 643, in flush
+    await record_bulk_task_run_events([item.event for item in batch])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 356, in record_bulk_task_run_events
+    await _record_bulk_task_run_events(events)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 613, in _record_bulk_task_run_events
+    await _insert_task_run_states(session, [tr.task_run for tr in all_task_runs])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\server\services\task_run_recorder.py", line 244, in _insert_task_run_states
+    await session.execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py", line 651, in execute
+    result = await greenlet_spawn(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 212, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2473, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2363, in _execute_internal
+    compile_state_cls.orm_execute_statement(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\orm\bulk_persistence.py", line 1341, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 258, in execute
+    self._adapt_connection._handle_exception(error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 412, in _handle_exception
+    self._handle_exception_no_connection(self.dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py", line 237, in _handle_exception_no_connection
+    super()._handle_exception_no_connection(dbapi, error)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 409, in _handle_exception_no_connection
+    raise error.with_traceback(exc_info[2])
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 256, in execute
+    return await_(self._execute_async(operation, parameters))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 167, in await_
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\util\concurrency.py", line 205, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\sqlalchemy\connectors\asyncio.py", line 279, in _execute_async
+    result = await self._cursor.execute(operation, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: task_run_state.task_run_id, task_run_state.timestamp
+[SQL: INSERT INTO task_run_state (task_run_id, type, timestamp, name, message, state_details, data, id, created, updated) VALUES (:task_run_id_m0, :type_m0, :timestamp_m0, :name_m0, :message_m0, :state_details_m0, :data_m0, :id_m0, :created_m0, :updated) ON CONFLICT (id) DO NOTHING]
+[parameters: {'task_run_id_m0': '01a19771-758f-7e0d-bcea-88dd5752a9e8', 'type_m0': 'COMPLETED', 'timestamp_m0': '2026-11-01 14:09:17.711992', 'name_m0': 'Completed', 'message_m0': '', 'state_details_m0': '{"flow_run_id": "ef0cd35a-adb7-4015-b7aa-055ec07a6b81", "task_run_id": "01a19771-758f-7e0d-bcea-88dd5752a9e8", "child_flow_run_id": null, "scheduled_ ... (206 characters truncated) ... esh_cache": null, "retriable": null, "transition_id": null, "task_parameters_id": null, "traceparent": null, "deployment_concurrency_lease_id": null}', 'data_m0': None, 'id_m0': '01a19771-758f-7758-b83d-06a3b6707404', 'created_m0': '2026-11-01 14:09:20.079289', 'updated': '2026-11-01 14:09:20.079289'}]
+(Background on this error at: https://sqlalche.me/e/21/gkpj)
+.F.FFFFF.E.E.....E...
+======================================================================
+ERROR: test_input_change_invalidates_prefect_cache (test_flow_prefect.FlowTests.test_input_change_invalidates_prefect_cache)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_flow_prefect.py", line 49, in test_input_change_invalidates_prefect_cache
+    first = flow_module.release_flow(workspace=str(self.ws))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flows.py", line 1887, in __call__
+    return run_flow(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2290, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2135, in run_flow_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 788, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 147, in release_flow
+    decision = gate_stage(candidate)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\tasks.py", line 1240, in __call__
+    return run_task(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1988, in run_task
+    return run_task_sync(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1758, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 622, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+ERROR: test_prepare_cache_and_idempotent_publish (test_flow_prefect.FlowTests.test_prepare_cache_and_idempotent_publish)
+Первый прогон исполняет подготовку и публикует; повтор в том же
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_flow_prefect.py", line 32, in test_prepare_cache_and_idempotent_publish
+    first = flow_module.release_flow(workspace=str(self.ws))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flows.py", line 1887, in __call__
+    return run_flow(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2290, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2135, in run_flow_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 788, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1339, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 2133, in run_flow_sync
+    engine.call_flow_fn()
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\flow_engine.py", line 1361, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 147, in release_flow
+    decision = gate_stage(candidate)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\tasks.py", line 1240, in __call__
+    return run_task(
+           ^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1988, in run_task
+    return run_task_sync(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1758, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 622, in result
+    raise self._raised
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1058, in run_context
+    yield self
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1755, in run_task_sync
+    engine.call_task_fn(txn)
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\task_engine.py", line 1075, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\.venv\Lib\site-packages\prefect\utilities\callables\__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\flow.py", line 95, in gate_stage
+    release.validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+ERROR: test_crash_between_pointer_and_journal_recovers (test_integration.IntegrationTests.test_crash_between_pointer_and_journal_recovers)
+Сбой между обновлением указателя и записью журнала: повтор
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 253, in test_crash_between_pointer_and_journal_recovers
+    release.publish(manifest, report, self.ws / "accepted.json")
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 123, in publish
+    validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+ERROR: test_complete_bound_report_allowed (test_release.ReleaseContractTests.test_complete_bound_report_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_release.py", line 51, in test_complete_bound_report_allowed
+    self.assertIsNone(release.validate_release(self.manifest,self.report))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+ERROR: test_failed_atomic_replace_preserves_previous_bytes (test_release.ReleaseContractTests.test_failed_atomic_replace_preserves_previous_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_release.py", line 105, in test_failed_atomic_replace_preserves_previous_bytes
+    with self.assertRaises(OSError):release.publish(self.manifest,self.report,self.target)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 123, in publish
+    validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+ERROR: test_publish_and_repeat (test_release.ReleaseContractTests.test_publish_and_repeat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_release.py", line 93, in test_publish_and_repeat
+    release.publish(self.manifest,self.report,self.target)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 123, in publish
+    validate_release(manifest, report)
+  File "C:\Users\user\Documents\GitHub\hw8910\release.py", line 88, in validate_release
+    raise ValueError("Демо-поломка быстрых проверок")
+ValueError: Демо-поломка быстрых проверок
+
+======================================================================
+FAIL: test_crash_recovery_and_cache_invalidation (test_integration.IntegrationTests.test_crash_recovery_and_cache_invalidation)
+Сбой после подготовки; повтор в новом процессе берет кеш; изменение
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 158, in test_crash_recovery_and_cache_invalidation
+    self.assertEqual(recover.returncode, 0, recover.stderr)
+AssertionError: 2 != 0 : REFUSED Демо-поломка быстрых проверок
+
+
+======================================================================
+FAIL: test_journal_tolerates_torn_tail (test_integration.IntegrationTests.test_journal_tolerates_torn_tail)
+Оборванная строка журнала (сбой во время записи) не ломает журнал:
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 233, in test_journal_tolerates_torn_tail
+    self.assertEqual(run_lab(self.ws, "run").returncode, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_reject_report_keeps_bytes (test_integration.IntegrationTests.test_reject_report_keeps_bytes)
+Отказ по качеству сохраняет прежний accepted.json побайтно и не пишет событие.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 201, in test_reject_report_keeps_bytes
+    self.assertEqual(run_lab(self.ws, "run").returncode, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_repeat_release_no_duplicate_events (test_integration.IntegrationTests.test_repeat_release_no_duplicate_events)
+Два одинаковых выпуска B: журнал попыток — две попытки, журнал
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 215, in test_repeat_release_no_duplicate_events
+    self.assertEqual(first.returncode, 0, first.stderr)
+AssertionError: 2 != 0 : REFUSED Демо-поломка быстрых проверок
+
+
+======================================================================
+FAIL: test_report_binds_to_its_model (test_integration.IntegrationTests.test_report_binds_to_its_model)
+Отчет допуска применяется к своему кандидату: отчет A не может
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 194, in test_report_binds_to_its_model
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 2 != 0 : REFUSED Демо-поломка быстрых проверок
+
+
+======================================================================
+FAIL: test_response_reports_loaded_version (test_integration.IntegrationTests.test_response_reports_loaded_version)
+Сервис на A, в другом процессе опубликован B: до перезапуска ответ
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 330, in test_response_reports_loaded_version
+    self.assertEqual(publish.returncode, 0, publish.stderr)
+AssertionError: 2 != 0 : REFUSED Демо-поломка быстрых проверок
+
+
+======================================================================
+FAIL: test_rollback_to_previous_accepted (test_integration.IntegrationTests.test_rollback_to_previous_accepted)
+A -> B -> откат к A: указатель возвращается, у каждого выпуска ровно
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\GitHub\hw8910\tests\test_integration.py", line 271, in test_rollback_to_previous_accepted
+    self.assertEqual(run_lab(self.ws, "run").returncode, 0)  # B
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0
+
+----------------------------------------------------------------------
+Ran 27 tests in 15.438s
+
+FAILED (failures=7, errors=6)
+17:09:26.728 | INFO    | prefect - Stopping temporary server on http://127.0.0.1:8306
+Создан синтетический стенд: C:\Users\user\AppData\Local\Temp\tmpnhpqru7s\ws
+Создан синтетический стенд: C:\Users\user\AppData\Local\Temp\tmpgfe2z4ra\ws
+Создан синтетический стенд: C:\Users\user\AppData\Local\Temp\tmp2rmlidpv\ws
