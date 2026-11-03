@@ -1,10 +1,9 @@
-# Ветка выбирается до первого присваивания: подряд два `?=` не работают
-# (первое уже определяет переменную, второе игнорируется), из-за этого на
-# Windows вызывался несуществующий python3.
+VENV ?= .venv/Scripts
 ifeq ($(OS),Windows_NT)
-  PYTHON ?= .venv/Scripts/python.exe
+  PYTHON ?= $(VENV)/python.exe
 else
   PYTHON ?= python3
+endif
 endif
 
 .PHONY: check check-fast check-flow release-real smoke bench aba clean
